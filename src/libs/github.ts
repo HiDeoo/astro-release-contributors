@@ -78,7 +78,7 @@ async function getUserName(login: string): Promise<string> {
   const user = await octokit.request('GET /users/{username}', {
     username: login,
   })
-  return user.data.name || login
+  return user.data.name?.trim() || login
 }
 
 function isInvalidContributor(login: string): boolean {
