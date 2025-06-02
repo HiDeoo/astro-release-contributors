@@ -1,0 +1,24 @@
+{
+  "name": "astro-release-contributors",
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "dotenvx run -f .env.local --quiet -- tsx src"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.44.1",
+    "octokit": "^5.0.3",
+    "tsx": "^4.19.4"
+  },
+  "devDependencies": {
+    "@hideoo/prettier-config": "^2.0.0",
+    "@hideoo/tsconfig": "^2.0.1",
+    "@types/node": "^22.15.29",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "pnpm@10.5.2",
+  "private": true,
+  "prettier": "@hideoo/prettier-config"
+}
