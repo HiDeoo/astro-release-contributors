@@ -1,6 +1,6 @@
 <div align="center">
   <h1>astro-release-contributors 🙏</h1>
-  <p>CLI tool to automatically generate a list of contributors in the Astro ecosystem since a given date.</p>
+  <p>CLI tool to automatically generate a Markdown list of contributors in the Astro ecosystem since a given date.</p>
   <br />
 </div>
 
