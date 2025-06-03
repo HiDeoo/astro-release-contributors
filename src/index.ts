@@ -22,6 +22,8 @@ let contributors: Contributors = {}
 
 // Fetch contributors for each PR.
 for (const [repo, prs] of pullRequestsByRepo) {
+  if (prs.length === 0) continue
+
   for (const [index, pr] of prs.entries()) {
     process.stdout.write(`\rFetching contributors for repo '${repo}'… (${index + 1}/${prs.length}) `)
 
