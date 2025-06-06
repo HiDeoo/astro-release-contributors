@@ -48,6 +48,6 @@ export const CoreTeamLogins: string[] = [
   'natemoo-re',
   'Princesseuh',
   'sarah11918',
-  'theotterlord',
+  'TheOtterlord',
   'yanthomasdev',
 ]
