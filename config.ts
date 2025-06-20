@@ -7,13 +7,13 @@ import type { Repo } from './src/libs/github'
  * To easily grab the date, you can use the following approach:
  *
  *   1. Open on GitHub the release commit of the last minor Astro release, e.g.
- *      https://github.com/withastro/astro/commit/0947a69192ad6820970902c7c951fb0cf31fcf4b for Astro 5.9.0.
+ *      https://github.com/withastro/astro/commit/0ad80d9296d8bc5427bcfd5c306acf853f13de68 for Astro 5.10.0.
  *   2. Append `.patch` at the end of the URL, e.g.
- *      https://github.com/withastro/astro/commit/0947a69192ad6820970902c7c951fb0cf31fcf4b.patch
+ *      https://github.com/withastro/astro/commit/0ad80d9296d8bc5427bcfd5c306acf853f13de68.patch
  *   3. Copy the `Date` from the third line of the patch file, e.g.
- *      `Date: Thu, 5 Jun 2025 05:44:36 -0700` and paste it below.
+ *      `Date: Thu, 19 Jun 2025 04:05:13 -0700` and paste it below.
  */
-export const SinceDate = new Date('Thu, 5 Jun 2025 05:44:36 -0700')
+export const SinceDate = new Date('Thu, 19 Jun 2025 04:05:13 -0700')
 
 /**
  * The list of repositories to find contributors in using the `owner/repo` format.
