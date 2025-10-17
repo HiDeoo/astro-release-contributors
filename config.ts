@@ -37,6 +37,7 @@ export const IgnoredLogins: string[] = ['astrobot-houston']
 export const CoreTeamLogins: string[] = [
   'aFuzzyBear',
   'alexanderniebuhr',
+  'ArmandPhilippot',
   'ascorbic',
   'bholmesdev',
   'delucis',
