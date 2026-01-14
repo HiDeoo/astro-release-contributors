@@ -1,15 +1,25 @@
 import fs from 'node:fs/promises'
+import { parseArgs } from 'node:util'
 
 import { getPrContributors, getRepoPrNumbers, type Contributors, type Repo } from './libs/github'
 import { Repos, SinceDate } from '../config'
 
+const { values } = parseArgs({ options: { major: { type: 'boolean' } } })
+const isMajor = values.major ?? false
+
 const pullRequestsByRepo = new Map<Repo, number[]>()
 
-console.info(`Finding PRs since ${SinceDate.toLocaleDateString()} ${SinceDate.toLocaleTimeString()}.\n`)
+console.info(
+  `${
+    isMajor
+      ? 'Finding PRs for the next major release'
+      : `Finding PRs since ${SinceDate.toLocaleDateString()} ${SinceDate.toLocaleTimeString()}`
+  }.\n`,
+)
 
-// Fetch PR numbers for each repo since the date specified in the `config.ts` file.
+// Fetch PR numbers for each repo.
 for (const repo of Repos) {
-  const prs = await getRepoPrNumbers(repo)
+  const prs = await getRepoPrNumbers(repo, isMajor)
   pullRequestsByRepo.set(repo, prs)
 
   console.info(`Found ${prs.length} PRs for repo '${repo}'.`)

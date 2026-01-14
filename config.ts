@@ -18,7 +18,7 @@ export const SinceDate = new Date('Thu, 20 Nov 2025 05:16:08 -0800')
 /**
  * The list of repositories to find contributors in using the `owner/repo` format.
  */
-export const Repos: Repo[] = ['withastro/astro', 'withastro/docs']
+export const Repos = ['withastro/astro', 'withastro/docs'] as const satisfies readonly Repo[]
 
 /**
  * The list of GitHub logins to ignore when fetching contributors.
@@ -53,3 +53,33 @@ export const CoreTeamLogins: string[] = [
   'TheOtterlord',
   'yanthomasdev',
 ]
+
+/**
+ * The specific configuration for finding contributors for a future major release.
+ */
+export const Major: { branches: Record<(typeof Repos)[number], string>; sinceDate: Date } = {
+  /**
+   * The branches where the next major release is being developed for each repository to find contributors in.
+   * A branch for each repository must be specified here.
+   *
+   * @see Repos
+   */
+  branches: {
+    'withastro/astro': 'next',
+    'withastro/docs': 'v6',
+  },
+  /**
+   * The date since which we want to find contributors.
+   * This usually corresponds to the date of the last major Astro release.
+   *
+   * To easily grab the date, you can use the following approach:
+   *
+   *   1. Open on GitHub the release commit of the last major Astro release, e.g.
+   *      https://github.com/withastro/astro/commit/fcdd37f684833eeb00dcecad21d9f4308cd6caa4 for Astro 5.0.0.
+   *   2. Append `.patch` at the end of the URL, e.g.
+   *      https://github.com/withastro/astro/commit/fcdd37f684833eeb00dcecad21d9f4308cd6caa4.patch
+   *   3. Copy the `Date` from the third line of the patch file, e.g.
+   *      `Date: Tue, 3 Dec 2024 02:56:34 -0800` and paste it below.
+   */
+  sinceDate: new Date('Tue, 3 Dec 2024 02:56:34 -0800'),
+}

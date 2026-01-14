@@ -4,7 +4,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "dotenvx run -f .env.local --quiet -- tsx src"
+    "start": "dotenvx run -f .env.local --quiet -- tsx src",
+    "start:major": "dotenvx run -f .env.local --quiet -- tsx src --major"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.44.1",
