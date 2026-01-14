@@ -1,16 +1,24 @@
 import { Octokit } from 'octokit'
 
-import { CoreTeamLogins, IgnoredLogins, SinceDate } from '../../config'
+import { CoreTeamLogins, IgnoredLogins, Major, SinceDate, type Repos } from '../../config'
 
 const octokit = new Octokit({
   auth: process.env['GITHUB_TOKEN'],
 })
 
-export async function getRepoPrNumbers(repo: Repo): Promise<number[]> {
+export async function getRepoPrNumbers(repo: (typeof Repos)[number], isMajor: boolean): Promise<number[]> {
+  const queryParameters = [
+    `repo:${repo}`,
+    'is:pr',
+    'is:merged',
+    `base:${isMajor ? Major.branches[repo] : 'main'}`,
+    `merged:${isMajor ? Major.sinceDate.toISOString() : SinceDate.toISOString()}..${new Date().toISOString()}`,
+  ]
+
   const prs = await octokit.paginate('GET /search/issues', {
     advanced_search: 'true',
     per_page: 100,
-    q: `repo:${repo} is:pr is:merged base:main merged:${SinceDate.toISOString()}..${new Date().toISOString()}`,
+    q: queryParameters.join(' '),
   })
 
   const prNumbers: number[] = []
