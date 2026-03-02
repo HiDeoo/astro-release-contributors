@@ -1,7 +1,7 @@
 import type { Repo } from './src/libs/github'
 
 /**
- * The date since which we want to find contributors.
+ * The date since when we want to find contributors.
  * This usually corresponds to the date of the last minor Astro release.
  *
  * To easily grab the date, you can use the following approach:
@@ -57,7 +57,11 @@ export const CoreTeamLogins: string[] = [
 /**
  * The specific configuration for finding contributors for a future major release.
  */
-export const Major: { branches: Record<(typeof Repos)[number], string>; sinceDate: Date } = {
+export const Major: {
+  branches: Record<(typeof Repos)[number], string>
+  mergedBranches: { [key in (typeof Repos)[number]]?: { branch: string; sinceDate: Date } }
+  sinceDate: Date
+} = {
   /**
    * The branches where the next major release is being developed for each repository to find contributors in.
    * A branch for each repository must be specified here.
@@ -69,7 +73,33 @@ export const Major: { branches: Record<(typeof Repos)[number], string>; sinceDat
     'withastro/docs': 'v6',
   },
   /**
-   * The date since which we want to find contributors.
+   * If some branches specified above were merged into another branch, you can define in this property which branch and
+   * since when to also look for merged PRs to not miss any contributor.
+   */
+  mergedBranches: {
+    'withastro/astro': {
+      /**
+       * The branch into which the development branch was merged.
+       */
+      branch: 'main',
+      /**
+       * The date since when we want to find contributors.
+       * This usually corresponds to the date when the development branch was merged into the other branch.
+       *
+       * To easily grab the date, you can use the following approach:
+       *
+       *   1. Open on GitHub the commit merging the development branch into the other branch, e.g.
+       *      https://github.com/withastro/astro/commit/955edb9f6d806d23942655cdabb60decb9cb491c for Astro 6.0.0.
+       *   2. Append `.patch` at the end of the URL, e.g.
+       *      https://github.com/withastro/astro/commit/955edb9f6d806d23942655cdabb60decb9cb491c.patch
+       *   3. Copy the `Date` from the third line of the patch file, e.g.
+       *      `Date: Mon, 15 Sep 2025 16:27:25 +0200` and paste it below.
+       */
+      sinceDate: new Date('Mon, 15 Sep 2025 16:27:25 +0200'),
+    },
+  },
+  /**
+   * The date since when we want to find contributors.
    * This usually corresponds to the date of the last major Astro release.
    *
    * To easily grab the date, you can use the following approach:

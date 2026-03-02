@@ -7,23 +7,25 @@ const octokit = new Octokit({
 })
 
 export async function getRepoPrNumbers(repo: (typeof Repos)[number], isMajor: boolean): Promise<number[]> {
-  const queryParameters = [
-    `repo:${repo}`,
-    'is:pr',
-    'is:merged',
+  const prs = await getMergedPrs(repo, [
     `base:${isMajor ? Major.branches[repo] : 'main'}`,
     `merged:${isMajor ? Major.sinceDate.toISOString() : SinceDate.toISOString()}..${new Date().toISOString()}`,
-  ]
+  ])
 
-  const prs = await octokit.paginate('GET /search/issues', {
-    advanced_search: 'true',
-    per_page: 100,
-    q: queryParameters.join(' '),
-  })
+  const allPrs = prs.flat()
+
+  const mergedBranch = Major.mergedBranches?.[repo]
+  if (mergedBranch) {
+    const prsSinceMerge = await getMergedPrs(repo, [
+      `base:${mergedBranch.branch}`,
+      `merged:${mergedBranch.sinceDate.toISOString()}..${new Date().toISOString()}`,
+    ])
+    allPrs.push(...prsSinceMerge.flat())
+  }
 
   const prNumbers: number[] = []
 
-  for (const pr of prs.flat()) {
+  for (const pr of allPrs) {
     // Skip bots
     if (pr.user?.type === 'Bot') continue
     // Skip ignored users (core team members are not ignored as their PRs can contain other contributors)
@@ -80,6 +82,14 @@ export async function getPrContributors(repo: Repo, prNumber: number, contributo
   }
 
   return Object.fromEntries(Object.values(contributors).map(({ name, link }) => [name, link]))
+}
+
+function getMergedPrs(repo: (typeof Repos)[number], queryParameters: string[]) {
+  return octokit.paginate('GET /search/issues', {
+    advanced_search: 'true',
+    per_page: 100,
+    q: [`repo:${repo}`, 'is:pr', 'is:merged', ...queryParameters].join(' '),
+  })
 }
 
 async function getUserName(login: string): Promise<string> {
