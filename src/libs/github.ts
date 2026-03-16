@@ -15,7 +15,7 @@ export async function getRepoPrNumbers(repo: (typeof Repos)[number], isMajor: bo
   const allPrs = prs.flat()
 
   const mergedBranch = Major.mergedBranches?.[repo]
-  if (mergedBranch) {
+  if (isMajor && mergedBranch) {
     const prsSinceMerge = await getMergedPrs(repo, [
       `base:${mergedBranch.branch}`,
       `merged:${mergedBranch.sinceDate.toISOString()}..${new Date().toISOString()}`,
