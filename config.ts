@@ -43,6 +43,7 @@ export const CoreTeamLogins: string[] = [
   'delucis',
   'ematipico',
   'florian-lefebvre',
+  'FredKSchott',
   'Fryuni',
   'HiDeoo',
   'jasikpark',
